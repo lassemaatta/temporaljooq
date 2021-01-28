@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+                   logicalFilePath="db.changelog.xml">
+
+    <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
+
+    <changeSet id="add-pg-extension" author="lassemaatta" dbms="postgresql">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS pgcrypto
+        </sql>
+    </changeSet>
+
+    <changeSet id="add-temporal-extension" author="lassemaatta" dbms="postgresql">
+        <sqlFile path="temporal-0.4.0.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 encoding="UTF-8"/>
+    </changeSet>
+
+    <changeSet id="add-company-table" author="lassemaatta" dbms="postgresql">
+
+        <createTable tableName="company">
+
+            <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" primaryKeyName="company_pk"/>
+            </column>
+
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_at" type="TIMESTAMP WITH TIMEZONE" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="sys_period" type="TSTZRANGE" defaultValueComputed="tstzrange(current_timestamp, null)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <sql>
+            CREATE TABLE company_history (LIKE company);
+
+            CREATE TRIGGER versioning_trigger
+            BEFORE INSERT OR UPDATE OR DELETE ON company
+            FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'company_history', true);
+        </sql>
+
+    </changeSet>
+
+    <changeSet id="add-person-table" author="lassemaatta" dbms="postgresql">
+
+        <createTable tableName="person">
+
+            <column name="id" type="UUID" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" primaryKeyName="person_pk"/>
+            </column>
+
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="lastname_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_employer_id" type="UUID">
+                <constraints foreignKeyName="fk_person_employer" references="company(id)"/>
+            </column>
+
+            <column name="created_at" type="TIMESTAMP WITH TIMEZONE" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="sys_period" type="TSTZRANGE" defaultValueComputed="tstzrange(current_timestamp, null)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <sql>
+            CREATE TABLE person_history (LIKE person);
+
+            CREATE TRIGGER versioning_trigger
+            BEFORE INSERT OR UPDATE OR DELETE ON person
+            FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'person_history', true);
+        </sql>
+
+    </changeSet>
+
+    <changeSet id="add-company-history-view" author="lassemaatta" dbms="postgresql">
+        <createView viewName="company_with_history_view" replaceIfExists="true">
+            SELECT * FROM company
+            UNION ALL
+            SELECT * FROM company_history;
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>

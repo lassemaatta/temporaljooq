@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  temporal-jooq-database:
+    image: postgres:11
+    container_name: temporal-jooq-database
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devdb
+      - POSTGRES_PASSWORD=devdb
+    ports:
+      - "15000:5432"

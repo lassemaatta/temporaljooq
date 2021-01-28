@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  temporal-jooq-test-database:
+    image: postgres:11
+    container_name: temporal-jooq-test-database
+    environment:
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=testdb
+      - POSTGRES_PASSWORD=testdb
+    ports:
+      - "14000:5432"
