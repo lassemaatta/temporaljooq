@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 
 public class CompanyRepositoryTest extends IntegrationTest {
@@ -29,6 +31,8 @@ public class CompanyRepositoryTest extends IntegrationTest {
 
         c = repository.update(c.withName("second name"));
 
+        final Instant t = Instant.now();
+
         c = repository.update(c.withName("third name"));
 
         final List<Company> withHistory = repository.find(true);
@@ -38,5 +42,7 @@ public class CompanyRepositoryTest extends IntegrationTest {
         final List<Company> onlyActive = repository.find(false);
 
         LOG.info("onlyActive: {}", onlyActive);
+
+        Optional<Company> foo = repository.findAt(t);
     }
 }

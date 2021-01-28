@@ -2,15 +2,21 @@ package fi.lassemaatta.temporaljooq.feature.company.repository;
 
 import fi.lassemaatta.jooq.tables.CompanyWithHistoryView;
 import fi.lassemaatta.jooq.tables.records.CompanyRecord;
+import fi.lassemaatta.temporaljooq.config.jooq.converter.TimeRange;
 import fi.lassemaatta.temporaljooq.feature.company.dto.Company;
 import fi.lassemaatta.temporaljooq.feature.company.dto.ModifiableFields;
 import fi.lassemaatta.temporaljooq.feature.company.dto.PersistableCompany;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CompanyRepository implements ICompanyRepository {
@@ -62,5 +68,19 @@ public class CompanyRepository implements ICompanyRepository {
         return includeHistory ?
                 db.selectFrom(HISTORY_VIEW).fetch(Company::from) :
                 db.selectFrom(COMPANY).fetch(Company::from);
+    }
+
+    static Condition rangeContainsValue(final Field<TimeRange> f1,
+                                        final Instant f2) {
+        return DSL.condition("({0} @> {1})", f1, f2);
+    }
+
+    @Override
+    public Optional<Company> findAt(final Instant systemTime) {
+        return db.selectFrom(HISTORY_VIEW)
+                 .where(rangeContainsValue(HISTORY_VIEW.SYS_PERIOD,
+                                           systemTime))
+                 .fetchOptional()
+                 .map(Company::from);
     }
 }
