@@ -100,4 +100,12 @@
         </createView>
     </changeSet>
 
+    <changeSet id="add-person-history-view" author="lassemaatta" dbms="postgresql">
+        <createView viewName="person_with_history_view" replaceIfExists="true">
+            SELECT * FROM person
+            UNION ALL
+            SELECT * FROM person_history;
+        </createView>
+    </changeSet>
+
 </databaseChangeLog>
