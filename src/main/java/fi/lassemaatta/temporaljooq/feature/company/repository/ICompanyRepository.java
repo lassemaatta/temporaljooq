@@ -1,18 +1,18 @@
 package fi.lassemaatta.temporaljooq.feature.company.repository;
 
-import fi.lassemaatta.temporaljooq.feature.company.dto.Company;
-import fi.lassemaatta.temporaljooq.feature.company.dto.PersistableCompany;
+import fi.lassemaatta.temporaljooq.feature.company.dto.CompanyDto;
+import fi.lassemaatta.temporaljooq.feature.company.dto.PersistableCompanyDto;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 public interface ICompanyRepository {
-    Company create(PersistableCompany company);
+    CompanyDto create(PersistableCompanyDto company);
 
-    Company update(Company company);
+    CompanyDto update(CompanyDto company);
 
-    List<Company> find(boolean includeHistory);
+    List<CompanyDto> find(boolean includeHistory);
 
-    Optional<Company> findAt(Instant systemTime);
+    Optional<CompanyDto> findAt(Instant systemTime);
 }

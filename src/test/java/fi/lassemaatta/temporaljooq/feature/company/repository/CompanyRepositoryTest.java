@@ -1,8 +1,8 @@
 package fi.lassemaatta.temporaljooq.feature.company.repository;
 
 import fi.lassemaatta.temporaljooq.IntegrationTest;
-import fi.lassemaatta.temporaljooq.feature.company.dto.Company;
-import fi.lassemaatta.temporaljooq.feature.company.dto.PersistableCompany;
+import fi.lassemaatta.temporaljooq.feature.company.dto.CompanyDto;
+import fi.lassemaatta.temporaljooq.feature.company.dto.PersistableCompanyDto;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +26,8 @@ public class CompanyRepositoryTest extends IntegrationTest {
 
     @Test
     @Sql("/drop_tables.sql")
-    public void foobar() throws InterruptedException {
-        Company c = repository.create(PersistableCompany.of("first name"));
+    public void foobar() {
+        CompanyDto c = repository.create(PersistableCompanyDto.of("first name"));
 
         c = repository.update(c.withName("second name"));
 
@@ -35,14 +35,14 @@ public class CompanyRepositoryTest extends IntegrationTest {
 
         c = repository.update(c.withName("third name"));
 
-        final List<Company> withHistory = repository.find(true);
+        final List<CompanyDto> withHistory = repository.find(true);
 
         LOG.info("withHistory: {}", withHistory);
 
-        final List<Company> onlyActive = repository.find(false);
+        final List<CompanyDto> onlyActive = repository.find(false);
 
         LOG.info("onlyActive: {}", onlyActive);
 
-        Optional<Company> foo = repository.findAt(t);
+        Optional<CompanyDto> foo = repository.findAt(t);
     }
 }
