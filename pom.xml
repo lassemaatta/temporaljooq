@@ -302,7 +302,8 @@
                 </dependencies>
                 <configuration>
                     <propertyFile>${project.basedir}/src/main/resources/hibernate.properties</propertyFile>
-                    <packageName>hibernate</packageName>
+                    <outputDirectory>${project.build.directory}/generated-sources/hibernate/</outputDirectory>
+                    <packageName>fi.lassemaatta.temporaljooq.entities</packageName>
                     <ejb3>true</ejb3>
                     <jdk5>true</jdk5>
                 </configuration>
