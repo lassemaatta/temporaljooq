@@ -22,6 +22,8 @@
 
         <guava.version>30.1-jre</guava.version>
         <immutables.version>2.8.2</immutables.version>
+        <javax.persistence.version>2.2</javax.persistence.version>
+        <hibernate.tools.version>6.0.0.Alpha2</hibernate.tools.version>
 
         <maven-properties.plugin.version>1.0.0</maven-properties.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -109,6 +111,13 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
+        </dependency>
+
+        <!-- For generated Hibernate classes -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>${javax.persistence.version}</version>
         </dependency>
 
     </dependencies>
@@ -272,6 +281,40 @@
                         </target>
                     </generator>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.hibernate.tool</groupId>
+                <artifactId>hibernate-tools-maven</artifactId>
+                <version>${hibernate.tools.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hibernate.tool</groupId>
+                        <artifactId>hibernate-tools-orm</artifactId>
+                        <version>${hibernate.tools.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <!-- from spring-boot-dependencies-<VERSION>.RELEASE.pom -->
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <propertyFile>${project.basedir}/src/main/resources/hibernate.properties</propertyFile>
+                    <packageName>hibernate</packageName>
+                    <ejb3>true</ejb3>
+                    <jdk5>true</jdk5>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>entity-generation</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>hbm2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
