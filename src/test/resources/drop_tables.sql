@@ -1,8 +1,4 @@
-DELETE
-FROM company;
-DELETE
-FROM company_history;
-DELETE
-FROM person;
-DELETE
-FROM person_history;
+TRUNCATE TABLE company CASCADE;
+TRUNCATE TABLE company_history CASCADE;
+TRUNCATE TABLE person CASCADE;
+TRUNCATE TABLE person_history CASCADE;

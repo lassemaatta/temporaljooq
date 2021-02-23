@@ -25,6 +25,9 @@
         <javax.persistence.version>2.2</javax.persistence.version>
         <hibernate.tools.version>6.0.0.Alpha2</hibernate.tools.version>
 
+        <spring.graphql.version>11.0.0</spring.graphql.version>
+        <java.graphql.version>5.2.4</java.graphql.version>
+
         <maven-properties.plugin.version>1.0.0</maven-properties.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
@@ -118,6 +121,26 @@
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
             <version>${javax.persistence.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <version>${spring.graphql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>altair-spring-boot-starter</artifactId>
+            <version>${spring.graphql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-spring-boot-starter-test</artifactId>
+            <version>${spring.graphql.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

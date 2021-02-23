@@ -35,14 +35,14 @@ public class CompanyRepositoryTest extends IntegrationTest {
 
         c = repository.update(c.withName("third name"));
 
-        final List<CompanyDto> withHistory = repository.find(true);
+        final List<CompanyDto> withHistory = repository.findAll(true);
 
         LOG.info("withHistory: {}", withHistory);
 
-        final List<CompanyDto> onlyActive = repository.find(false);
+        final List<CompanyDto> onlyActive = repository.findAll(false);
 
         LOG.info("onlyActive: {}", onlyActive);
 
-        Optional<CompanyDto> foo = repository.findAt(t);
+        Optional<CompanyDto> foo = repository.findAt(c.id(), t);
     }
 }

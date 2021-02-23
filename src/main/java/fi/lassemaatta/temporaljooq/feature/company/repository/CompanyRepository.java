@@ -1,5 +1,6 @@
 package fi.lassemaatta.temporaljooq.feature.company.repository;
 
+import com.google.common.collect.ImmutableSet;
 import fi.lassemaatta.jooq.tables.Company;
 import fi.lassemaatta.jooq.tables.CompanyWithHistoryView;
 import fi.lassemaatta.jooq.tables.records.CompanyRecord;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static fi.lassemaatta.temporaljooq.feature.common.repository.Conditions.rangeContainsValue;
 
@@ -61,17 +64,34 @@ public class CompanyRepository implements ICompanyRepository {
     }
 
     @Override
-    public List<CompanyDto> find(final boolean includeHistory) {
+    public List<CompanyDto> findAll(final boolean includeHistory) {
         return includeHistory ?
                 db.selectFrom(HISTORY_VIEW).fetch(CompanyDto::from) :
                 db.selectFrom(COMPANY).fetch(CompanyDto::from);
     }
 
     @Override
-    public Optional<CompanyDto> findAt(final Instant systemTime) {
+    public Optional<CompanyDto> find(final UUID id) {
+        return db.selectFrom(COMPANY)
+                 .where(COMPANY.ID.eq(id))
+                 .fetchOptional()
+                 .map(CompanyDto::from);
+    }
+
+    @Override
+    public List<CompanyDto> findByIds(final Collection<UUID> ids) {
+        return db.selectFrom(COMPANY)
+                 .where(COMPANY.ID.in(ImmutableSet.copyOf(ids)))
+                 .fetch(CompanyDto::from);
+    }
+
+    @Override
+    public Optional<CompanyDto> findAt(final UUID id,
+                                       final Instant systemTime) {
         return db.selectFrom(HISTORY_VIEW)
                  .where(rangeContainsValue(HISTORY_VIEW.SYS_PERIOD,
                                            systemTime))
+                 .and(HISTORY_VIEW.ID.eq(id))
                  .fetchOptional()
                  .map(CompanyDto::from);
     }

@@ -1,0 +1,28 @@
+schema {
+    query: QueryType
+    mutation: MutationType
+}
+
+scalar UUID
+
+type QueryType {
+    companies: [CompanyDto]
+    persons: [PersonDto]
+}
+
+type CompanyDto {
+    id: UUID!
+    name: String!
+}
+
+type PersonDto {
+    id: UUID!
+    firstName: String!
+    lastName: String!
+    employerDto: CompanyDto
+}
+
+type MutationType {
+    createCompany(name: String!) : CompanyDto!
+    createPerson(firstName: String!, lastName: String!, employerId: UUID) : PersonDto!
+}
