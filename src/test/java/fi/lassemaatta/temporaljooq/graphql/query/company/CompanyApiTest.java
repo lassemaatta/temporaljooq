@@ -1,4 +1,4 @@
-package fi.lassemaatta.temporaljooq.graphql;
+package fi.lassemaatta.temporaljooq.graphql.query.company;
 
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.graphql.spring.boot.test.helper.GraphQLTestConstantsHelper.DATA_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 
@@ -53,10 +54,16 @@ public class CompanyApiTest extends GraphQlTest {
                 .when(companyRepository)
                 .findAll(true);
 
-        final GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/get_companies.graphql");
+        final GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/query/company/get_companies.graphql");
 
         assertThat(response.isOk()).isTrue();
-        assertThat(response.get("$.data.companies[0].id")).isNotNull();
-        assertThat(response.get("$.data.companies[0].name")).isEqualTo("Some company");
+
+        response.assertThatDataField()
+                .isNotNull()
+                .and()
+                .assertThatField(DATA_PATH + ".companies")
+                .asListOf(ImmutableCompanyDto.class)
+                .hasSize(1)
+                .allMatch(company -> company.name().equals(companies.get(0).name()));
     }
 }
