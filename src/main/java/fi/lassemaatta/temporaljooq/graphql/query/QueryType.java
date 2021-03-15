@@ -28,11 +28,13 @@ public class QueryType implements GraphQLQueryResolver {
         this.personRepository = personRepository;
     }
 
+    @SuppressWarnings("unused")
     public List<CompanyDto> companies(final DataFetchingEnvironment env) {
         LOG.info("Resolving companies");
         return companyRepository.findAll(true);
     }
 
+    @SuppressWarnings("unused")
     public List<PersonDto> persons(final DataFetchingEnvironment env) {
         LOG.info("Resolving persons");
         return personRepository.find(true);

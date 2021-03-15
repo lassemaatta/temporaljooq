@@ -26,6 +26,8 @@ public class GraphQLConfiguration {
     @Bean
     public GraphQLSchema schema(final List<GraphQLScalarType> scalars,
                                 final List<GraphQLResolver<?>> resolvers) {
+        LOG.info("Registering {} scalars", scalars.size());
+        LOG.info("Registering {} resolvers", resolvers.size());
         return SchemaParser.newParser()
                            .file(SCHEMA_PATH)
                            .resolvers(resolvers)

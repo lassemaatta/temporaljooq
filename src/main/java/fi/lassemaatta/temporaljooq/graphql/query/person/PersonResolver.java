@@ -20,6 +20,7 @@ public class PersonResolver implements GraphQLResolver<PersonDto> {
     private static final Logger LOG = LoggerFactory.getLogger(PersonResolver.class);
 
     @Nullable
+    @SuppressWarnings({"unused", "MethodMayBeStatic"})
     public CompletableFuture<CompanyDto> employerDto(final PersonDto person,
                                                      final DataFetchingEnvironment env) {
         LOG.info("Resolving employer for person: {}", person);

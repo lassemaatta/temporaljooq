@@ -27,10 +27,12 @@ public class MutationType implements GraphQLMutationResolver {
         this.personRepository = personRepository;
     }
 
+    @SuppressWarnings("unused")
     public CompanyDto createCompany(final String name) {
         return companyRepository.create(PersistableCompanyDto.of(name));
     }
 
+    @SuppressWarnings("unused")
     public PersonDto createPerson(final String firstName,
                                   final String lastName,
                                   @Nullable final UUID employerId) {
