@@ -1,6 +1,7 @@
 schema {
     query: QueryType
     mutation: MutationType
+    subscription: SubscriptionType
 }
 
 scalar UUID
@@ -25,4 +26,8 @@ type PersonDto {
 type MutationType {
     createCompany(name: String!) : CompanyDto!
     createPerson(firstName: String!, lastName: String!, employerId: UUID) : PersonDto!
+}
+
+type SubscriptionType {
+    companies: [CompanyDto]
 }

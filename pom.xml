@@ -75,6 +75,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+
         <!-- Needed for JOOQToSpringExceptionTransformer -->
         <dependency>
             <groupId>org.springframework</groupId>

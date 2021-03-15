@@ -8,6 +8,7 @@ import fi.lassemaatta.temporaljooq.feature.company.dto.CompanyDto;
 import fi.lassemaatta.temporaljooq.feature.company.dto.ImmutableCompanyDto;
 import fi.lassemaatta.temporaljooq.feature.company.repository.ICompanyRepository;
 import fi.lassemaatta.temporaljooq.feature.person.repository.IPersonRepository;
+import fi.lassemaatta.temporaljooq.graphql.subscription.company.CompanyPublisher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +33,9 @@ public class CompanyApiTest extends GraphQlTest {
 
     @MockBean
     private IPersonRepository personRepository;
+
+    @MockBean
+    private CompanyPublisher companyPublisher;
 
     public CompanyApiTest(@Autowired final GraphQLTestTemplate graphQLTestTemplate) {
         this.graphQLTestTemplate = graphQLTestTemplate;
