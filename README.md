@@ -18,6 +18,8 @@ Support for bitemporal tables is provided by [temporal tables](https://github.co
 
 Although not actually used in this project, Hibernate entities are generated from the database schema using `org.hibernate.tool/hibernate-tools-maven` and the `hbm2java` goal.
 
+This is a new line, but modified.
+
 ## GraphQL
 
 A simple GraphQL API is implemented with `com.graphql-java-kickstart/graphql-spring-boot-starter` ([github](https://github.com/graphql-java-kickstart/graphql-spring-boot), [docs](https://www.graphql-java-kickstart.com/spring-boot/)), which is built upon `com.graphql-java/graphql-java` ([github](https://github.com/graphql-java/graphql-java), [docs](https://www.graphql-java.com/documentation/v16/)).
