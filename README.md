@@ -20,6 +20,8 @@ Although not actually used in this project, Hibernate entities are generated fro
 
 Tässä on ensimmäinen rivi, mutta muutettuna.
 
+Tässä on toinen rivi, mutta muutettuna.
+
 ## GraphQL
 
 A simple GraphQL API is implemented with `com.graphql-java-kickstart/graphql-spring-boot-starter` ([github](https://github.com/graphql-java-kickstart/graphql-spring-boot), [docs](https://www.graphql-java-kickstart.com/spring-boot/)), which is built upon `com.graphql-java/graphql-java` ([github](https://github.com/graphql-java/graphql-java), [docs](https://www.graphql-java.com/documentation/v16/)).
